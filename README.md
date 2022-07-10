@@ -9,7 +9,7 @@ Web Python
 Technology
 -----------
 
-- [Brytoh](https://brython.info/) - Brython `3.10.6`
+- [Brython](https://brython.info/) - Brython `3.10.6`
 
 <!---
 - [Font Awesome](https://fontawesome.com/) - Awesome font gadgets `5.15.2`
