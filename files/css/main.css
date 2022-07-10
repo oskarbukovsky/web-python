@@ -1,19 +1,69 @@
-*{
+* {
     font-family: sans-serif;
     font-weight: normal;
     font-size: 1.1em;
 }
-td{
+
+td {
     background-color: #ccc;
     padding: 10px 30px 10px 30px;
     border-radius: 0.2em;
     text-align: center;
     cursor: default;
 }
-#result{
+
+#result {
     border-color: #000;
     border-width: 1px;
     border-style: solid;
     padding: 10px 30px 10px 30px;
     text-align: right;
+}
+
+.console-log-div {
+    width: 95% !important;
+    background-color: #efefef;
+}
+
+#log {
+    margin: 10px 0px;
+    display: block;
+    white-space: pre;
+    font-family: monospace;
+}
+
+#log:before {
+    content: "log javascript:";
+    font-style: italic;
+    color: #555;
+}
+
+#console-log-div {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    min-width: 30vw;
+    max-width: 30vw;
+    height: calc(100vh - 96px);
+    white-space: pre-line !important;
+}
+
+#console-input {
+    position: absolute;
+    top: calc(100vh - 70px);
+    right: 0px;
+    width: calc(30vw - 22px);
+    height: 1.5rem;
+    padding-left: 32px !important;
+}
+
+.console-input {
+    position: absolute;
+    top: calc(100vh - 43px);
+    right: 30vw;
+    z-index: 999;
+}
+
+*:focus{
+    outline: none;
 }

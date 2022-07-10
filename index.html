@@ -46,7 +46,21 @@
 
     <script type="text/python" src="files/js/main.py"></script>
     <script type="text/javascript" src="files/js/console.js"></script>
-    <div id="debugDiv"></div>
+
+    <span class="console-input">></span>
+    <input type="text" id="console-input"
+        style="font-family: monospace; margin-top: 20px; margin-left: 10px; margin-right: 10px; white-space: pre; border: 1px solid black; border-radius: 5px; padding: 5px 10px;">
+    <script type="text/javascript">
+        const input = document.getElementById("console-input");
+        input.addEventListener("keyup", (event) => {
+            if (event.key === "Enter") {
+                tmp = input.value;
+                input.value = "";
+                eval(tmp);
+            }
+        });
+    </script>
+
 </body>
 
 </html>
