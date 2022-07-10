@@ -1,8 +1,31 @@
-<html>
+<!doctype html>
+<html lang="cs">
 
 <head>
-    <meta charset="utf-8">
+    <title>Web Python (Alpha)</title>
 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8; X-Content-Type-Options=nosniff">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="cs">
+    <meta http-equiv="Cache-control" content="public">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Jan Oskar Bukovský">
+    <meta name="copyright" content="Jan Oskar Bukovský">
+    <meta name="google" content="notranslate">
+    <meta name="robots" content="index,follow">
+    <meta name="referrer" content="unsafe-url">
+    <meta name="description" content="Best online virtual desktop simulating win10 environment">
+    <meta name="keywords" content="virtual desktop, windows, win 10, online">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    <meta charset="UTF-8">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://winaero.com" crossorigin>
+    <link rel="preconnect" href="https://apis.google.com" crossorigin>
+    <link rel="preconnect" href="https://code.jquery.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="manifest" href="manifest.json">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.6/brython.min.js"
         integrity="sha512-LDmvEqUAHongGVdMnKgr2Wid1mkoi7gToSQQ8jO4DzO1s9nL9voMw1wqDOVEbjJQTgg2tWWtSRuty59RrA/Sew=="
@@ -14,11 +37,7 @@
 
 <body onload="brython()">
 
-    <script type="text/python">
-from browser import document
-
-document <= "Hello !"</script>
-
+    <script type="text/python" src="js/main.py"></script>
 
 </body>
 
