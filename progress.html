@@ -1,0 +1,139 @@
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <title>Aula 09 a</title>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.8.8/brython.min.js">
+    </script>
+    <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/brython@3.8.8/brython_stdlib.min.js">
+    </script>
+    <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.1/dist/terminal.min.css" />
+    <style media="screen">
+    :root {
+        --global-font-size: 15px;
+        --global-line-height: 1.4em;
+        --background-color: #222225;
+        --font-color: #e8e9ed;
+        --invert-font-color: #222225
+        --invert-font-color: #222225;
+        --primary-color: #62c4ff;
+        --secondary-color: #a3abba;
+        --tertiary-color: #a3abba;
+        --error-color: #ff3c74;
+        --progress-bar-background: #3f3f44;
+        --progress-bar-fill: #62c4ff;
+        --font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace,
+          serif;
+        --input-style: solid;
+    }
+    .simple-grid {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-column-gap: 50px;
+        grid-template-areas: "header header header"
+                             "body_a body_b body_c"
+                             "footer footer footer";
+
+    }
+
+    header {
+      grid-area: header;
+    }
+
+    .body_a {
+      grid-area: body_a;
+    }
+
+    .body_b {
+      grid-area: body_b;
+    }
+
+    .body_c {
+      grid-area: body_c;
+    }
+    </style>
+    <script type="text/python">
+      from browser import document, bind, html, timer
+      from functools import partial
+
+
+      def manage_progress(id, percent):
+          bar = document.select_one(id)
+          bar.style.width = f'{percent}%'
+          # bar.style.background = 'red'
+          bar['data-filled'] = f'Loading {percent}%'
+
+          if percent == 0:
+              text = document.select_one('#finished')
+              text.remove()
+
+          if percent == 100:
+              progress_bar = document.select_one('#progress-bar')
+              progress_bar.clear()
+              progress_bar <= html.BR()
+              progress_bar <= html.DIV('Carregamento concluído', ID='finished', Class='terminal-alert terminal-alert-primary')
+
+
+      def create_progress_bar():
+          if not document.select('.progress-bar'):
+            bar_attrs = {
+                'class': "progress-bar-filled",
+                'style': {'width': '0%'},
+                'data-filled': 'Loading 0%',
+                'id': 'bar',
+            }
+            progress = html.DIV(Class="progress-bar progress-bar-show-percent")
+            progress <= html.DIV(**bar_attrs)
+            document.select_one('#progress-bar') <= progress
+
+            for value in range(0, 101):
+              timer.set_timeout(partial(manage_progress, '#bar', value), value * 50)
+
+      @bind('#request', 'click')
+      def request_click(event):
+          create_progress_bar()
+    </script>
+  </head>
+  <body onload="brython(0)">
+    <div class="simple-grid">
+      <header>
+        <div class="container">
+          <div class="terminal-nav">
+            <div class="terminal-logo" id="header">
+              <div class="logo terminal-prompt">
+                <a class="no-style" href="/">Olar Jovis :)</a>
+              </div>
+            </div>
+            <nav class="terminal-menu">
+              <ul>
+                <li>
+                  <a class="menu-item" target="_blank" href="https://www.youtube.com/eduardomendes">Youtube</a>
+                </li>
+                <li>
+                  <a class="menu-item" target="_blank" href="https://apoia.se/livedepython">Apoia.se</a>
+                </li>
+                <li>
+                  <a class="menu-item" target="_blank" href="https://dunossauro.github.io/curso-python-selenium">Curso</a>
+                </li>
+                <li>
+                  <a class="menu-item" target="_blank" href="https://github.com/dunossauro/curso-python-selenium/blob/master/cdc.md">CDC</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <div class="body_b">
+        <fieldset>
+          <legend>Waits</legend>
+          <button class="btn btn-default btn-ghost" id="request" type="button" name="button">Barrinha top</button>
+          <div id="progress-bar">
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </body>
+</html>

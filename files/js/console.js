@@ -74,9 +74,10 @@
     var msg = Array.prototype.slice.call(arguments, 0)
       .map(toString)
       .join(' ');
-      var div = document.createElement('div');
-      div.innerHTML = msg;
-      document.getElementById("console-log-text").appendChild(div);
+    var div = document.createElement('div');
+    div.innerHTML = msg;
+    document.getElementById("console-log-text").appendChild(div);
+    document.getElementById("console-log-text").lastChild.scrollIntoView();
     //var text = logTo.textContent;
     //logTo.textContent = text + msg + '\n';
   }
@@ -171,9 +172,7 @@ consoleinput.addEventListener("keyup", (event) => {
       consoleinput.value = "";
       history.push(tmp);
       HistoryIndex = history.length;
-      document.getElementById("console-log-text").lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
       eval(tmp);
-      document.getElementById("console-log-text").lastChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }
   if (event.key === "ArrowUp") {
@@ -186,11 +185,46 @@ consoleinput.addEventListener("keyup", (event) => {
   if (event.key === "ArrowDown") {
     HistoryIndex++;
     if (HistoryIndex > history.length - 1) {
-      HistoryIndex = history.length ;
+      HistoryIndex = history.length;
     }
     consoleinput.value = history[HistoryIndex];
     if (HistoryIndex > history.length - 1) {
       consoleinput.value = "";
     }
   }
+});
+
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+  var stats = new Stats()
+  stats.showPanel(0)
+  document.body.appendChild(
+    stats.dom)
+  stats.dom.style.top = "calc(100vh - 48px)"
+  requestAnimationFrame(function loop() {
+    stats.update()
+    requestAnimationFrame(loop)
+  })
+
+  var stats1 = new Stats()
+  stats1.showPanel(1)
+  document.body.appendChild(
+    stats1.dom)
+  stats1.dom.style.top = "calc(100vh - 48px)"
+  stats1.dom.style.left = "80px"
+  requestAnimationFrame(function loop1() {
+    stats1.update()
+    requestAnimationFrame(loop1)
+  })
+
+  var stats2 = new Stats()
+  stats2.showPanel(2)
+  document.body.appendChild(
+    stats2.dom)
+  stats2.dom.style.top = "calc(100vh - 48px)"
+  stats2.dom.style.left = "160px"
+  requestAnimationFrame(function loop2() {
+    stats2.update()
+    requestAnimationFrame(loop2)
+  })
 });
