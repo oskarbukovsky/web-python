@@ -40,26 +40,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"
+        integrity="sha512-tBzZQxySO5q5lqwLWfu8Q+o4VkTcRGOeQGVQ0ueJga4A1RKuzmAu5HXDOXLEjpbKyV7ow9ympVoa6wZLEzRzDg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 
 <body onload="brython()">
 
-    <script type="text/python" src="files/js/main.py"></script>
+    <script type="text/python" src="files/js/test.py"></script>
     <script type="text/javascript" src="files/js/console.js"></script>
 
-    <span class="console-input">></span>
-    <input type="text" id="console-input"
-        style="font-family: monospace; margin-top: 20px; margin-left: 10px; margin-right: 10px; white-space: pre; border: 1px solid black; border-radius: 5px; padding: 5px 10px;">
-    <script type="text/javascript">
-        const input = document.getElementById("console-input");
-        input.addEventListener("keyup", (event) => {
-            if (event.key === "Enter") {
-                tmp = input.value;
-                input.value = "";
-                eval(tmp);
-            }
+
+    Press button on controller to connect.
+    <div id="axes" style="display: flex; flex-direction: column;"></div>
+    <script>
+        window.addEventListener('gamepadconnected', (event) => {
+            const update = () => {
+                const output = document.getElementById('axes');
+                output.innerHTML = ''; // clear the output
+
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+                    for (const [index, axis] of gamepad.axes.entries()) {
+                        output.insertAdjacentHTML('beforeend',
+                            `<label>${gamepad.index}, ${index}
+             <progress value=${axis * 0.5 + 0.5}></progress>
+           </label>`);
+                    }
+                }
+                requestAnimationFrame(update);
+            };
+            update();
         });
     </script>
+
 
 </body>
 

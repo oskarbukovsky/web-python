@@ -48,6 +48,19 @@ td {
     white-space: pre-line !important;
 }
 
+#console-log-text {
+    overflow-y: auto;
+    height: 100%;
+    font-size: 0.8rem;
+    background-color: #202124;
+    border-radius: 3px;
+}
+
+#console-log-text > div {
+    color: #ffffff;
+    font-size: 18px !important;
+}
+
 #console-input {
     position: absolute;
     top: calc(100vh - 70px);
@@ -64,6 +77,30 @@ td {
     z-index: 999;
 }
 
-*:focus{
+*:focus {
     outline: none;
+}
+
+.warn {
+    padding: 5px;
+    color: #f2ab26;
+    background-color: #332b00;
+    border: 1px solid #665500;
+}
+
+.error {
+    padding: 5px;
+    color: #ff8080;
+    background-color: #290000;
+    border: 1px solid #5c0000;
+}
+
+.info {
+    padding: 5px;
+    color: #e8eaed;
+    border: 1px solid #3a3a3a;
+}
+
+svg {
+    border: 1px solid #000000;
 }
