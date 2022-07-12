@@ -42,8 +42,7 @@ td {
     position: absolute;
     top: 0px;
     right: 0px;
-    min-width: 30vw;
-    max-width: 30vw;
+    width: 20vw !important;
     height: calc(100vh - 96px);
     white-space: pre-line !important;
 }
@@ -65,7 +64,7 @@ td {
     position: absolute;
     top: calc(100vh - 70px);
     right: 0px;
-    width: calc(30vw - 22px);
+    width: calc(20vw - 22px);
     height: 1.5rem;
     padding-left: 32px !important;
 }
@@ -73,7 +72,7 @@ td {
 .console-input {
     position: absolute;
     top: calc(100vh - 43px);
-    right: 30vw;
+    right: 20vw;
     z-index: 999;
 }
 
@@ -103,4 +102,16 @@ td {
 
 svg {
     border: 1px solid #000000;
+}
+
+.canvas-container {
+    position: absolute !important;
+    left: 5%;
+    top: 50%;
+    transform: translate(-5%, -50%);
+    border: 1px solid #000000;
+}
+
+progress {
+    margin-top: -8px;
 }

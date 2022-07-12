@@ -6,12 +6,7 @@
     <link rel="icon" type="image/x-icon" href="files/img/icon_256x256.png">
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8; X-Content-Type-Options=nosniff">
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'">-->
-    <meta http-equiv="Content-Security-Policy" content="
-      worker-src blob:; 
-      child-src blob: gap:;
-      img-src 'self' blob: data:;
-      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Language" content="cs">
     <meta http-equiv="Cache-control" content="public">
@@ -36,8 +31,11 @@
 
     <link rel="stylesheet" href="files/css/main.css" type="text/css" media="all">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.min.js"
-        integrity="sha512-nPzvcIhv7AtvjpNcnbr86eT6zGtiudLiLyVssCWLmvQHgR95VvkLX8mMpqNKWs1TG3Hnf+tvHpnGmpPS3yJIgw=="
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.6/brython.min.js"
+        integrity="sha512-LDmvEqUAHongGVdMnKgr2Wid1mkoi7gToSQQ8jO4DzO1s9nL9voMw1wqDOVEbjJQTgg2tWWtSRuty59RrA/Sew=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.6/brython_stdlib.min.js"
+        integrity="sha512-ckank4qLYTH9E8Ph913wJcp+B07VhZ9nxZNmaLl0kbsdKkY4vX/E9ahZm4FRdVDQv8YqWf3hiIrG8UMwUAVdfQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
@@ -48,18 +46,15 @@
     <script src="https://mrdoob.github.io/stats.js/build/stats.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
 
-
 </head>
 
-<body>
+<body onload="brython()">
 
-    <script type="text/javascript" src="files/scripts/test2.js"></script>
+    <script type="text/javascript" src="files/scripts/svine-filip.js"></script>
     <script type="text/javascript" src="files/scripts/console.js"></script>
 
     Press button on controller to connect.
     <div id="GamepadValues" style="display: flex; flex-direction: column;"></div>
-
-    <canvas id="c" width="1366" height="768"></canvas>
 
 </body>
 
