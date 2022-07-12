@@ -119,7 +119,6 @@ function PlayerControll(event) {
             100000
         }, 100000 / bulletSpeed, 'linear');
     }
-
 }
 
 window.addEventListener('gamepadconnected', (event) => {
