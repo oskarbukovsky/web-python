@@ -53,6 +53,7 @@ function PlayerControll(event) {
 window.addEventListener('gamepadconnected', (event) => {
     let indexGamepad = 0;
     $('#GamepadValues').children().remove()
+
     for (const gamepad of navigator.getGamepads()) {
         if (!gamepad) continue;
         for (const [indexAxes, axis] of gamepad.axes.entries()) {

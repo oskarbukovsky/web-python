@@ -1,0 +1,9 @@
+{
+    "type": "offer",
+    "sdp": "v=0\r\no=- 5225897047672942488 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\na=extmap-allow-mixed\r\na=msid-semantic: WMS\r\nm=application 65492 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 37.188.187.8\r\na=candidate:3987484441 1 udp 2113937151 9b6e78cf-7cf1-4247-928d-b38b936d9644.local 55721 typ host generation 0 network-cost 999\r\na=candidate:842163049 1 udp 1677729535 37.188.187.8 65492 typ srflx raddr 0.0.0.0 rport 0 generation 0 network-cost 999\r\na=ice-ufrag:1gs1\r\na=ice-pwd:d/+92QxhaXSV5/Hj9VZj09n4\r\na=ice-options:trickle\r\na=fingerprint:sha-256 A0:F9:1F:3B:18:65:40:E9:FB:6C:28:9A:52:3B:B9:15:09:AE:EC:91:E9:CC:23:0E:80:BF:F3:B8:97:61:96:9E\r\na=setup:actpass\r\na=mid:0\r\na=sctp-port:5000\r\na=max-message-size:262144\r\n"
+}
+
+{
+    "type": "answer",
+    "sdp": "v=0\r\no=- 1205994189057112318 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\na=extmap-allow-mixed\r\na=msid-semantic: WMS\r\nm=application 9 UDP/DTLS/SCTP webrtc-datachannel\r\nc=IN IP4 0.0.0.0\r\na=candidate:3987484441 1 udp 2113937151 3fb17662-3f10-400d-8929-4ce3c352c75f.local 53921 typ host generation 0 network-cost 999\r\na=ice-ufrag:Z3GE\r\na=ice-pwd:A3P2COXDyulH+zvUF0sWCReT\r\na=ice-options:trickle\r\na=fingerprint:sha-256 31:1F:BE:37:6C:E9:1D:96:95:7D:DF:D5:2F:FC:C7:23:F7:B7:28:87:9E:5E:10:B3:D1:F7:26:DC:E1:B7:AB:B4\r\na=setup:active\r\na=mid:0\r\na=sctp-port:5000\r\na=max-message-size:262144\r\n"
+}
