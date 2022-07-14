@@ -18,10 +18,12 @@ let moveSpeed = 11
 let deathZone = 0.05;
 
 function PlayerControll(event) {
+
+    //Local gamepad
     // X analog 1 axis
     xAnalog1 = $("#0-xAnalog1").val() - 0.5;
     if (Math.abs(xAnalog1) > deathZone) {
-        if (circle1.attr('cx') + xAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cx') + xAnalog1 * moveSpeed < paper.width / 2 - circle1.attr('r')) {
+        if (circle1.attr('cx') + xAnalog1 * moveSpeed >= circle1.attr('r') && circle1.attr('cx') + xAnalog1 * moveSpeed <= (paper.width / 2) - circle1.attr('r')) {
             circle1.attr('cx', circle1.attr('cx') + xAnalog1 * moveSpeed);
         }
     }
@@ -29,23 +31,58 @@ function PlayerControll(event) {
     // Y analog 1 axis
     yAnalog1 = $("#0-yAnalog1").val() - 0.5;
     if (Math.abs(yAnalog1) > deathZone) {
-        if (circle1.attr('cy') + yAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cy') + yAnalog1 * moveSpeed < paper.height - circle1.attr('r')) {
+        if (circle1.attr('cy') + yAnalog1 * moveSpeed >= circle1.attr('r') && circle1.attr('cy') + yAnalog1 * moveSpeed <= paper.height - circle1.attr('r')) {
             circle1.attr('cy', circle1.attr('cy') + yAnalog1 * moveSpeed);
         }
     }
 
     // X analog 2 axis
-    xAnalog2 = $("#1-xAnalog2").val() - 0.5;
-    if (Math.abs(xAnalog2) > deathZone) {
-        if (circle2.attr('cx') + xAnalog2 * moveSpeed > circle2.attr('r') + paper.width / 2 && circle2.attr('cx') + xAnalog2 * moveSpeed < paper.width - circle2.attr('r')) {
-            circle2.attr('cx', circle2.attr('cx') + xAnalog2 * moveSpeed);
+    xAnalog2 = $("#0-xAnalog2").val() - 0.5;
+    if (Math.abs(xAnalog1) > deathZone) {
+        if (circle1.attr('cx') + xAnalog2 * moveSpeed >= circle1.attr('r') && circle1.attr('cx') + xAnalog2 * moveSpeed <= (paper.width / 2) - circle1.attr('r')) {
+            circle1.attr('cx', circle2.attr('cx') + xAnalog2 * moveSpeed);
+        }
+    }
+
+    // Y analog 2 axis
+    yAnalog2 = $("#0-yAnalog2").val() - 0.5;
+    if (Math.abs(yAnalog2) > deathZone) {
+        if (circle1.attr('cy') + yAnalog2 * moveSpeed >= circle2.attr('r') && circle2.attr('cy') + yAnalog2 * moveSpeed <= paper.height - circle2.attr('r')) {
+            circle1.attr('cy', circle1.attr('cy') + yAnalog2 * moveSpeed);
+        }
+    }
+
+
+
+    //Remote gamepad
+    // X analog 1 axis
+    xAnalog1 = $("#1-xAnalog1").val() - 0.5;
+    if (Math.abs(xAnalog1) > deathZone) {
+        if (circle2.attr('cx') - xAnalog1 * moveSpeed >= circle2.attr('r') + (paper.width / 2) && circle2.attr('cx') - xAnalog1 * moveSpeed <= paper.width - circle2.attr('r')) {
+            circle2.attr('cx', circle2.attr('cx') - xAnalog1 * moveSpeed);
+        }
+    }
+
+    // Y analog 1 axis
+    yAnalog1 = $("#1-yAnalog1").val() - 0.5;
+    if (Math.abs(yAnalog1) > deathZone) {
+        if (circle2.attr('cy') + yAnalog1 * moveSpeed >= circle2.attr('r') && circle2.attr('cy') + yAnalog1 * moveSpeed <= paper.height - circle2.attr('r')) {
+            circle2.attr('cy', circle2.attr('cy') + yAnalog1 * moveSpeed);
+        }
+    }
+
+    // X analog 2 axis
+    xAnalog1 = $("#1-xAnalog2").val() - 0.5;
+    if (Math.abs(xAnalog1) > deathZone) {
+        if (circle2.attr('cx') - xAnalog2 * moveSpeed >= circle2.attr('r') + (paper.width / 2) && circle2.attr('cx') - xAnalog2 * moveSpeed <= paper.width - circle2.attr('r')) {
+            circle2.attr('cx', circle2.attr('cx') - xAnalog2 * moveSpeed);
         }
     }
 
     // Y analog 2 axis
     yAnalog2 = $("#1-yAnalog2").val() - 0.5;
     if (Math.abs(yAnalog2) > deathZone) {
-        if (circle2.attr('cy') + yAnalog2 * moveSpeed > circle2.attr('r') && circle2.attr('cy') + yAnalog2 * moveSpeed < paper.height - circle2.attr('r')) {
+        if (circle2.attr('cy') + yAnalog2 * moveSpeed >= circle2.attr('r') && circle2.attr('cy') + yAnalog2 * moveSpeed <= paper.height - circle2.attr('r')) {
             circle2.attr('cy', circle2.attr('cy') + yAnalog2 * moveSpeed);
         }
     }
