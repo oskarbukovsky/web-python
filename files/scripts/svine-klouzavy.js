@@ -19,17 +19,19 @@ let deathZone = 0.05;
 
 function PlayerControll(event) {
 
+    //TODO:
+    //do second if to determine which site |<---->|
+
     //Local gamepad
     // X analog 1 axis
     xAnalog1 = $("#0-xAnalog1").val() - 0.5;
     if (Math.abs(xAnalog1) > deathZone) {
         if (circle1.attr('cx') + xAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cx') + xAnalog1 * moveSpeed < (paper.width / 2) - circle1.attr('r')) {
             circle1.attr('cx', circle1.attr('cx') + xAnalog1 * moveSpeed);
+        } else if (circle1.attr('cx') + xAnalog1 * moveSpeed < circle1.attr('r')) {
+            circle1.attr('cx', circle1.attr('r'));
         } else {
-
-            //TODO:
-            //do second if to determine which site |<---->|
-            circle1.attr('cx', paper.width - circle1.attr('r'));
+            circle1.attr('cx', (paper.width / 2) - circle1.attr('r'));
         }
     }
 
@@ -38,6 +40,8 @@ function PlayerControll(event) {
     if (Math.abs(yAnalog1) > deathZone) {
         if (circle1.attr('cy') + yAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cy') + yAnalog1 * moveSpeed < paper.height - circle1.attr('r')) {
             circle1.attr('cy', circle1.attr('cy') + yAnalog1 * moveSpeed);
+        } else if (circle1.attr('cy') + yAnalog1 * moveSpeed < circle1.attr('r')) {
+            circle1.attr('cy', circle1.attr('r'));
         } else {
             circle1.attr('cy', paper.height - circle1.attr('r'));
         }
@@ -48,8 +52,10 @@ function PlayerControll(event) {
     if (Math.abs(xAnalog2) > deathZone) {
         if (circle1.attr('cx') + xAnalog2 * moveSpeed > circle1.attr('r') && circle1.attr('cx') + xAnalog2 * moveSpeed < (paper.width / 2) - circle1.attr('r')) {
             circle1.attr('cx', circle1.attr('cx') + xAnalog2 * moveSpeed);
+        } else if (circle1.attr('cx') + xAnalog2 * moveSpeed < circle1.attr('r')) {
+            circle1.attr('cx', circle1.attr('r'));
         } else {
-            circle1.attr('cx', paper.width - circle1.attr('r'));
+            circle1.attr('cx', (paper.width / 2) - circle1.attr('r'));
         }
     }
 
@@ -58,6 +64,8 @@ function PlayerControll(event) {
     if (Math.abs(yAnalog2) > deathZone) {
         if (circle1.attr('cy') + yAnalog2 * moveSpeed > circle1.attr('r') && circle1.attr('cy') + yAnalog2 * moveSpeed < paper.height - circle1.attr('r')) {
             circle1.attr('cy', circle1.attr('cy') + yAnalog2 * moveSpeed);
+        } else if (circle1.attr('cy') + yAnalog2 * moveSpeed < circle1.attr('r')) {
+            circle1.attr('cy', circle1.attr('r'));
         } else {
             circle1.attr('cy', paper.height - circle1.attr('r'));
         }
@@ -71,8 +79,10 @@ function PlayerControll(event) {
     if (Math.abs(xAnalog1) > deathZone) {
         if (circle2.attr('cx') - xAnalog1 * moveSpeed > circle2.attr('r') + (paper.width / 2) && circle2.attr('cx') - xAnalog1 * moveSpeed < paper.width - circle2.attr('r')) {
             circle2.attr('cx', circle2.attr('cx') - xAnalog1 * moveSpeed);
+        } else if (circle2.attr('cx') + xAnalog1 * moveSpeed < circle2.attr('r')) {
+            circle2.attr('cx', (paper.width / 2) - circle1.attr('r'));
         } else {
-            circle2.attr('cx', paper.width - circle1.attr('r'));
+            circle2.attr('cx', paper.width - circle2.attr('r'));
         }
     }
 
@@ -81,8 +91,10 @@ function PlayerControll(event) {
     if (Math.abs(yAnalog1) > deathZone) {
         if (circle2.attr('cy') + yAnalog1 * moveSpeed > circle2.attr('r') && circle2.attr('cy') + yAnalog1 * moveSpeed < paper.height - circle2.attr('r')) {
             circle2.attr('cy', circle2.attr('cy') + yAnalog1 * moveSpeed);
+        } else if (circle2.attr('cy') + yAnalog1 * moveSpeed < circle2.attr('r')) {
+            circle2.attr('cy', circle2.attr('r'));
         } else {
-            circle2.attr('cy', paper.width - circle1.attr('r'));
+            circle2.attr('cy', paper.height - circle2.attr('r'));
         }
     }
 
@@ -91,8 +103,10 @@ function PlayerControll(event) {
     if (Math.abs(xAnalog2) > deathZone) {
         if (circle2.attr('cx') - xAnalog2 * moveSpeed > circle2.attr('r') + (paper.width / 2) && circle2.attr('cx') - xAnalog2 * moveSpeed < paper.width - circle2.attr('r')) {
             circle2.attr('cx', circle2.attr('cx') - xAnalog2 * moveSpeed);
+        } else if (circle2.attr('cx') + xAnalog2 * moveSpeed < circle2.attr('r')) {
+            circle2.attr('cx', (paper.width / 2)-circle2.attr('r'));
         } else {
-            circle2.attr('cx', paper.width - circle1.attr('r'));
+            circle2.attr('cx', paper.width - circle2.attr('r'));
         }
     }
 
@@ -101,8 +115,10 @@ function PlayerControll(event) {
     if (Math.abs(yAnalog2) > deathZone) {
         if (circle2.attr('cy') + yAnalog2 * moveSpeed > circle2.attr('r') && circle2.attr('cy') + yAnalog2 * moveSpeed < paper.height - circle2.attr('r')) {
             circle2.attr('cy', circle2.attr('cy') + yAnalog2 * moveSpeed);
+        } else if (circle2.attr('cy') + yAnalog2 * moveSpeed < circle2.attr('r')) {
+            circle2.attr('cy', circle2.attr('r'));
         } else {
-            circle2.attr('cy', paper.width - circle1.attr('r'));
+            circle2.attr('cy', paper.height - circle2.attr('r'));
         }
     }
 }
