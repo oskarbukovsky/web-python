@@ -101,12 +101,12 @@ function connectTo(remoteUuid) {
     }
 }
 
-function msgToLog(user, message){
+function msgToLog(user, message) {
     console.log('[' + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds() + '][' + user + ']: ' + message);
 }
 
 let uuid = uuidv4();
-let username = prompt("Enter your name:") ?? randName();
+let username = randName();
 let remoteUsername;
 let drone = new Scaledrone('9lSwhGfWeyzdNMl5', {
     data: {
@@ -241,15 +241,12 @@ let onRecievedOffer = function () {
         null)
 };
 
-function sendMessage() {
-    if (messageTextBox.value) {
-        //Print msg on local terminal
-
-        activedc.send(JSON.stringify(new Message(username, uuid, messageTextBox.value)));
-        msgToLog(username, messageTextBox.value);
+let sendMessage = (msg, event ) => {
+    if ( ((event?.key == "Enter") || event == undefined) && msg) {
+        activedc.send(JSON.stringify(new Message(username, uuid, msg)));
+        msgToLog(username, msg);
         messageTextBox.value = "";
     }
-    return false
 }
 
 // BOB: create

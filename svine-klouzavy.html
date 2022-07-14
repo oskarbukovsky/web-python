@@ -45,13 +45,19 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://mrdoob.github.io/stats.js/build/stats.min.js" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
+    <script src='https://cdn.scaledrone.com/scaledrone.min.js' type='text/javascript'></script>
+    <script src="files/scripts/network.js" defer></script>
+    <script src="files/scripts/console.js" defer></script>
+    <script src="files/scripts/svine-klouzavy.js" defer></script>
 
 </head>
 
 <body onload="brython()">
 
-    <script type="text/javascript" src="files/scripts/svine-klouzavy.js"></script>
-    <script type="text/javascript" src="files/scripts/console.js"></script>
+    <div id="members-count">-</div>
+    <div id="members-list">-</div>
+    <input type="text" id="messageTextBox" placeholder="Type your message here"
+        onkeydown="sendMessage(this.value, event)">
 
     Press button on controller to connect.
     <div id="GamepadValues" style="display: flex; flex-direction: column;"></div>

@@ -66,6 +66,5 @@
     <div id="members-count">-</div>
     <div id="members-list">-</div>
 
-    <input type="text" id="messageTextBox" placeholder="Type your message here">
-    <button id="sendMessageBtn" onclick="sendMessage()">Send message</button>
+    <input type="text" id="messageTextBox" placeholder="Type your message here" onkeydown="sendMessage(this.value, event)">
 </body>
