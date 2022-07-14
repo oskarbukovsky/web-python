@@ -244,7 +244,7 @@ let onRecievedOffer = function () {
 let sendMessage = (msg, event ) => {
     if ( ((event?.key == "Enter") || event == undefined) && msg) {
         activedc.send(JSON.stringify(new Message(username, uuid, msg)));
-        msgToLog(username, msg);
+        //msgToLog(username, msg);
         messageTextBox.value = "";
     }
 }

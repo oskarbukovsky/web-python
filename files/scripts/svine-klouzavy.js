@@ -11,6 +11,7 @@ circle2.attr("fill", "#0f0");
 circle2.attr("stroke", "#fff");
 
 standartLayout = ["xAnalog1", "yAnalog1", "xAnalog2", "yAnalog2"];
+let toSend = {};
 
 let moveSpeed = 11
 
@@ -20,7 +21,7 @@ function PlayerControll(event) {
     // X analog 1 axis
     xAnalog1 = $("#0-xAnalog1").val() - 0.5;
     if (Math.abs(xAnalog1) > deathZone) {
-        if (circle1.attr('cx') + xAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cx') + xAnalog1 * moveSpeed < paper.width/2 - circle1.attr('r')) {
+        if (circle1.attr('cx') + xAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('cx') + xAnalog1 * moveSpeed < paper.width / 2 - circle1.attr('r')) {
             circle1.attr('cx', circle1.attr('cx') + xAnalog1 * moveSpeed);
         }
     }
@@ -36,7 +37,7 @@ function PlayerControll(event) {
     // X analog 2 axis
     xAnalog2 = $("#1-xAnalog2").val() - 0.5;
     if (Math.abs(xAnalog2) > deathZone) {
-        if (circle2.attr('cx') + xAnalog2 * moveSpeed > circle2.attr('r') + paper.width/2 && circle2.attr('cx') + xAnalog2 * moveSpeed < paper.width - circle2.attr('r')) {
+        if (circle2.attr('cx') + xAnalog2 * moveSpeed > circle2.attr('r') + paper.width / 2 && circle2.attr('cx') + xAnalog2 * moveSpeed < paper.width - circle2.attr('r')) {
             circle2.attr('cx', circle2.attr('cx') + xAnalog2 * moveSpeed);
         }
     }
@@ -59,20 +60,42 @@ window.addEventListener('gamepadconnected', (event) => {
         for (const [indexAxes, axis] of gamepad.axes.entries()) {
             $('#GamepadValues').append('<progress id=' + indexGamepad + "-" + standartLayout[indexAxes] + ' value=' + (axis * 0.5 + 0.5) + '></progress>');
         }
+        for (const [indexAxes, axis] of gamepad.axes.entries()) {
+            $('#GamepadValues').append('<progress id=' + (indexGamepad + 1) + "-" + standartLayout[indexAxes] + ' value=0.5' + '></progress>');
+        }
         indexGamepad++;
     }
-    onGamepadUpdate(event); 
+    onGamepadUpdate(event);
 });
 
 function onGamepadUpdate(event) {
     let indexGamepad = 0;
+    toSend = {};
     for (const gamepad of navigator.getGamepads()) {
         if (!gamepad) continue;
         for (const [indexAxes, axis] of gamepad.axes.entries()) {
             $('#' + indexGamepad + "-" + standartLayout[indexAxes]).val(axis * 0.5 + 0.5);
+            Object.assign(toSend, { [(indexGamepad + 1) + "-" + standartLayout[indexAxes]]: axis * 0.5 + 0.5 });
         }
         indexGamepad++;
     }
+    sendMessage(JSON.stringify(toSend));
     PlayerControll(event)
     requestAnimationFrame(onGamepadUpdate);
 };
+
+function msgToLog(user, message) {
+    let parsedData = JSON.parse(message);
+    let indexGamepad = 0;
+    for (const gamepad of navigator.getGamepads()) {
+        if (!gamepad) continue;
+        for (const [indexAxes, axis] of gamepad.axes.entries()) {
+            $('#' + (indexGamepad + 1) + "-" + standartLayout[indexAxes]).val(parsedData[(indexGamepad + 1) + "-" + standartLayout[indexAxes]]);
+            //console.log($('#' + (indexGamepad + 1) + "-" + standartLayout[indexAxes]));
+
+            //console.log(parsedData[(indexGamepad + 1) + "-" + standartLayout[indexAxes]]);
+        }
+        indexGamepad++;
+    }
+    //console.log('[' + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds() + '][' + user + ']#: ' + message);
+}
