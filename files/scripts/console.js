@@ -90,6 +90,7 @@
     printToDiv.apply(null, args);
   }
 
+  cl = console.log;
   console.log = logWithCopy;
   console.log.toDiv = true;
 

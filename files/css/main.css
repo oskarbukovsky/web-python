@@ -115,3 +115,17 @@ svg {
 progress {
     margin-top: -8px;
 }
+progress {
+    width: 100px;
+    padding: 5px;
+}
+
+#GamepadValues {
+    padding-top: 15px;
+}
+
+#Game {
+    position: absolute;
+    top: 115px;
+    left: 120px;
+}

@@ -148,7 +148,7 @@ let lastSound = new Date().getTime();
 
 let soundDelay = 90;
 
-let moveSpeed = 1000 
+let moveSpeed = 1000;
 
 let deathZone = 0.05;
 
