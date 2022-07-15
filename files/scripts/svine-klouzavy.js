@@ -1,55 +1,154 @@
-; (function (Raphael) {
-    /// Plugin - replaces original RaphaelJS .image constructor
-    /// with one that respects original dimensions.
-    /// Optional overrides for each dimension.
-    /// @drzaus @zaus
-    /// based on http://stackoverflow.com/questions/10802702/raphael-js-image-with-its-original-width-and-height-size
-
-    var originalRaphaelImageFn = Raphael.fn.image;
-    /**
-     * Overload - replace Raphael .image function with one that respects original dimensions
-     * @param  {string} url the image path
-     * @param  {number} x   position-x
-     * @param  {number} y   position-y
-     * @param  {number} w   dimensions-width
-     * @param  {number} h   dimensions-height
-     * @return {Paper.Element}     new raphael element
-     */
-    Raphael.fn.image = function (url, x, y, w, h) {
-        // fix the image dimensions to match original scale unless otherwise provided
-        if (!w || !h) {
-            var img = new Image();
-            img.src = url;
-            if (!w) w = img.width;
-            if (!h) h = img.height;
+var pusher1;
+var pusher2;
+var config = {
+    type: Phaser.AUTO,
+    width: 1366,
+    height: 768,
+    parent: 'Game',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: {
+                x: 0,
+                y: 0
+            }
         }
-        return originalRaphaelImageFn.call(this, url, x, y, w, h);
-    };
-    Raphael.st.setID = function (id) {
-        this.id = id;
+    },
+    pusherRadius: 20,
+    puckRadius: 20,
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
     }
-})(Raphael);
+};
+
+var game = new Phaser.Game(config);
+var test;
+function preload() {
+    this.load.image('red-pusher', 'files/img/red-pusher.png');
+    this.load.image('blue-pusher', 'files/img/blue-pusher.png');
+    this.load.image('background', 'files/img/background.jpg');
+    test = this.load.image('puck', 'files/img/puck.png');
+}
+
+function updateScore(playerIndex) {
+    let original = text._text.split(":").map(a => { return a.trim() });
+    original[playerIndex]++;
+    text.setText(original[0] + ' : ' + original[1]);
+
+    pusher1.x = config.width / 2;
+    pusher1.y = config.height / 2;
+    pusher2.x = config.width / 2;
+    pusher2.y = config.height / 2;
+    puck.x = config.width / 2;
+    puck.y = config.height / 2;
+    puck.body.velocity.x = 0;
+    puck.body.velocity.y = 0;
+
+    for (const gamepad of navigator.getGamepads()) {
+        if (!gamepad) continue;
+        gamepad.vibrationActuator.playEffect('dual-rumble', {
+            startDelay: 0,
+            duration: 222,
+            weakMagnitude: 1.0,
+            strongMagnitude: 1.0,
+        });
+    }
+}
+
+function update() {
+    goal1.x = 0;
+    goal1.body.velocity.x = 0;
+    goal1.body.velocity.y = 0;
+
+    goal2.x = config.width;
+    goal2.body.velocity.x = 0;
+    goal1.body.velocity.y = 0;
+
+    bounds = goal1.getBounds();
+    if (this.physics.overlapRect(bounds.x, bounds.y, bounds.width, bounds.height).map((el) => { return el.mass == 2 }).some((el) => { return el == true })) {
+        updateScore(1);
+    }
+
+    bounds = goal2.getBounds();
+    if (this.physics.overlapRect(bounds.x, bounds.y, bounds.width, bounds.height).map((el) => { return el.mass == 2 }).some((el) => { return el == true })) {
+        updateScore(0);
+    }
+}
+
+function create() {
+    let background = this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
+    let scaleX = this.cameras.main.width / background.width
+    let scaleY = this.cameras.main.height / background.height
+    let scale = Math.max(scaleX, scaleY)
+    background.setScale(scale).setScrollFactor(0)
+
+    text = this.add.text(this.cameras.main.worldView.x + this.cameras.main.width / 2, 48, '0 : 0').setOrigin(0.5).setFontFamily('Arial').setFontSize(64).setColor('#000000');
+
+    goal1 = this.add.rectangle(0, config.height / 2, 10, 170, 0x990000);
+
+    goal2 = this.add.rectangle(config.width, config.height / 2, 10, 170, 0x990000);
+
+    pusher1 = this.physics.add.image(config.width / 2, config.height / 2, 'red-pusher')
+    pusher1.setOrigin(2, 0.5).setCircle(pusher1.width / 2).setScale(0.25).setBounce(1).setCollideWorldBounds(true).setMass(2.001);
+
+    pusher2 = this.physics.add.image(config.width / 2, config.height / 2, 'blue-pusher')
+    pusher2.setOrigin(-1, 0.5).setCircle(pusher2.width / 2).setScale(0.25).setBounce(1).setCollideWorldBounds(true).setMass(2.001);
+
+    puck = this.physics.add.image(config.width / 2, config.height / 2, 'puck')
+    puck.setCircle(puck.width / 2).setScale(0.8).setBounce(1).setCollideWorldBounds(true).setMass(2);
+
+    this.physics.add.collider(pusher1, puck);
+    this.physics.add.collider(pusher2, puck);
+    this.physics.add.collider(goal1, puck);
+    this.physics.add.collider(goal2, puck);
+    this.physics.add.collider(pusher1, pusher2);
 
 
-// Creates canvas 320 × 200 at 10, 50
-paper = window.Raphael(210, 210, 640, 480);
+    puck.body.onWorldBounds = true;
+    puck.body.onCollide = true;
 
+    this.physics.add.existing(goal1);
 
-// Creates circle at x = 50, y = 40, with radius 10
-//circle1 = paper.circle(40, 240, 10);
-//circle1.attr("fill", "#0f0");
-//circle1.attr("stroke", "#fff");
+    this.physics.add.existing(goal2);
 
-circle2 = paper.circle(600, 240, 10);
-circle2.attr("fill", "#0f0");
-circle2.attr("stroke", "#fff");
+    goal1.body.onCollide = true;
+    goal2.body.onCollide = true;
 
-circle1 = paper.image('files/img/blue-pusher.png', 40, 240, 80, 80);
+    /*goal1.body.world.on('collide', function (body) {
+        updateScore(0);
+    });
+    goal1.body.world.on('collide', function (body) {
+        updateScore(1);
+    });*/
+
+    puck.body.world.on('worldbounds', function (body) {
+        currentTime = new Date().getTime();
+        if (lastSound + soundDelay < currentTime) {
+            new Audio('files/sound/jump.wav').play();
+            lastSound = currentTime;
+        }
+    }, this);
+
+    puck.body.world.on('collide', function (body) {
+        currentTime = new Date().getTime();
+        if (lastSound + soundDelay < currentTime) {
+            new Audio('files/sound/clank.wav').play();
+            lastSound = currentTime;
+        }
+    }, this);
+}
 
 standartLayout = ["xAnalog1", "yAnalog1", "xAnalog2", "yAnalog2"];
 let toSend = {};
 
-let moveSpeed = 11
+let lastSound = new Date().getTime();
+
+let soundDelay = 90;
+
+let moveSpeed = 1000 
 
 let deathZone = 0.05;
 
@@ -61,81 +160,24 @@ function PlayerControll(event) {
     //Local gamepad
     // X analog 1 axis
     xAnalog1 = $("#0-xAnalog1").val() - 0.5;
-    if (Math.abs(xAnalog1) > deathZone) {
-        if (circle1.attr('x') + xAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('x') + xAnalog1 * moveSpeed < (paper.width / 2) - circle1.attr('r')) {
-            circle1.attr('x', circle1.attr('x') + xAnalog1 * moveSpeed);
-        } else if (circle1.attr('cx') + xAnalog1 * moveSpeed < circle1.attr('r')) {
-            circle1.attr('x', circle1.attr('r'));
-        } else {
-            circle1.attr('x', (paper.width / 2) - circle1.attr('r'));
-        }
-    }
-
-    // Y analog 1 axis
     yAnalog1 = $("#0-yAnalog1").val() - 0.5;
-    if (Math.abs(yAnalog1) > deathZone) {
-        if (circle1.attr('y') + yAnalog1 * moveSpeed > circle1.attr('r') && circle1.attr('y') + yAnalog1 * moveSpeed < paper.height - circle1.attr('r')) {
-            circle1.attr('y', circle1.attr('y') + yAnalog1 * moveSpeed);
-        } else if (circle1.attr('y') + yAnalog1 * moveSpeed < circle1.attr('r')) {
-            circle1.attr('y', circle1.attr('r'));
-        } else {
-            circle1.attr('y', paper.height - circle1.attr('r'));
-        }
-    }
 
-    // X analog 2 axis
     xAnalog2 = $("#0-xAnalog2").val() - 0.5;
-    if (Math.abs(xAnalog2) > deathZone) {
-        if (circle1.attr('x') + xAnalog2 * moveSpeed > circle1.attr('r') && circle1.attr('x') + xAnalog2 * moveSpeed < (paper.width / 2) - circle1.attr('r')) {
-            circle1.attr('x', circle1.attr('x') + xAnalog2 * moveSpeed);
-        } else if (circle1.attr('x') + xAnalog2 * moveSpeed < circle1.attr('r')) {
-            circle1.attr('x', circle1.attr('r'));
-        } else {
-            circle1.attr('x', (paper.width / 2) - circle1.attr('r'));
-        }
-    }
-
-    // Y analog 2 axis
     yAnalog2 = $("#0-yAnalog2").val() - 0.5;
-    if (Math.abs(yAnalog2) > deathZone) {
-        if (circle1.attr('y') + yAnalog2 * moveSpeed > circle1.attr('r') && circle1.attr('y') + yAnalog2 * moveSpeed < paper.height - circle1.attr('r')) {
-            circle1.attr('y', circle1.attr('y') + yAnalog2 * moveSpeed);
-        } else if (circle1.attr('y') + yAnalog2 * moveSpeed < circle1.attr('r')) {
-            circle1.attr('y', circle1.attr('r'));
-        } else {
-            circle1.attr('y', paper.height - circle1.attr('r'));
-        }
-    }
+
+    pusher1.setVelocity(xAnalog1 * moveSpeed + xAnalog2 * 2 * moveSpeed, yAnalog1 * moveSpeed + yAnalog2 * 2 * moveSpeed);
 
 
-
-    //Remote gamepad
-
-    /*
-    // X analog 1 axis
     xAnalog1 = $("#1-xAnalog1").val() - 0.5;
-    if (Math.abs(xAnalog1) > deathZone) {
-        if (circle2.attr('cx') - xAnalog1 * moveSpeed > circle2.attr('r') + (paper.width / 2) && circle2.attr('cx') - xAnalog1 * moveSpeed < paper.width - circle2.attr('r')) {
-            circle2.attr('cx', circle2.attr('cx') - xAnalog1 * moveSpeed);
-        } else if (circle2.attr('cx') - xAnalog1 * moveSpeed < circle2.attr('r') + (paper.width / 2)) {
-            circle2.attr('cx', (paper.width / 2) + circle2.attr('r'));
-        } else {
-            circle2.attr('cx', paper.width - circle2.attr('r'));
-        }
-    }
-
-    // Y analog 1 axis
     yAnalog1 = $("#1-yAnalog1").val() - 0.5;
-    if (Math.abs(yAnalog1) > deathZone) {
-        if (circle2.attr('cy') + yAnalog1 * moveSpeed > circle2.attr('r') && circle2.attr('cy') + yAnalog1 * moveSpeed < paper.height - circle2.attr('r')) {
-            circle2.attr('cy', circle2.attr('cy') + yAnalog1 * moveSpeed);
-        } else if (circle2.attr('cy') + yAnalog1 * moveSpeed < circle2.attr('r')) {
-            circle2.attr('cy', circle2.attr('r'));
-        } else {
-            circle2.attr('cy', paper.height - circle2.attr('r'));
-        }
-    }
 
+    xAnalog2 = $("#1-xAnalog2").val() - 0.5;
+    yAnalog2 = $("#1-yAnalog2").val() - 0.5;
+
+    pusher2.setVelocity(xAnalog1 * moveSpeed + xAnalog2 * 2 * moveSpeed, yAnalog1 * moveSpeed + yAnalog2 * 2 * moveSpeed);
+
+
+    /*//Remote gamepad
     // X analog 2 axis
     xAnalog2 = $("#1-xAnalog2").val() - 0.5;
     if (Math.abs(xAnalog2) > deathZone) {
@@ -147,7 +189,7 @@ function PlayerControll(event) {
             circle2.attr('cx', paper.width - circle2.attr('r'));
         }
     }
-
+ 
     // Y analog 2 axis
     yAnalog2 = $("#1-yAnalog2").val() - 0.5;
     if (Math.abs(yAnalog2) > deathZone) {
@@ -190,8 +232,6 @@ function onGamepadUpdate(event) {
         indexGamepad++;
     }
     if (activedc?.readyState == "open" || false) {
-        Object.assign(toSend, { "cx": circle1.attr('cx') });
-        Object.assign(toSend, { "cy": circle1.attr('cy') });
         sendMessage(JSON.stringify(toSend));
     };
     PlayerControll(event)
@@ -204,8 +244,6 @@ function msgToLog(user, message) {
     for (const gamepad of navigator.getGamepads()) {
         if (!gamepad) continue;
         for (const [indexAxes, axis] of gamepad.axes.entries()) {
-            circle2.attr('cx', paper.width - parsedData.cx);
-            circle2.attr('cy', parsedData.cy);
             $('#' + (indexGamepad + 1) + "-" + standartLayout[indexAxes]).val(parsedData[(indexGamepad + 1) + "-" + standartLayout[indexAxes]]);
             //console.log($('#' + (indexGamepad + 1) + "-" + standartLayout[indexAxes]));
 
