@@ -96,6 +96,7 @@ let updateMessages = () => {
 function connectTo(remoteUuid) {
     if ($("#" + remoteUuid).css('color') == 'rgb(0, 128, 0)') {
         console.log("Connecting to " + remoteUuid);
+        role = "client";
         webRTC.remoteOffer = activeUsersLastMessage.filter((msg) => { return msg.uuid == remoteUuid })[0].message;
         onRecievedOffer();
     }
@@ -194,7 +195,7 @@ drone.on('open', () => {
     room.on('member_leave', ({ id }) => {
         const index = members.findIndex(member => member.id === id);
 
-        console.log("Members: " + members[index].clientData.username + " left");
+        console.log("Members: " + members[index]?.clientData.username + " left");
         members.splice(index, 1);
 
         updateMessages();
@@ -241,8 +242,8 @@ let onRecievedOffer = function () {
         null)
 };
 
-let sendMessage = (msg, event ) => {
-    if ( ((event?.key == "Enter") || event == undefined) && msg) {
+let sendMessage = (msg, event) => {
+    if (((event?.key == "Enter") || event == undefined) && msg) {
         activedc.send(JSON.stringify(new Message(username, uuid, msg)));
         //msgToLog(username, msg);
         messageTextBox.value = "";
@@ -298,7 +299,6 @@ peerConnection2.ondatachannel = function (e) {
     }
 }
 
-
 peerConnection2.onicecandidate = function (e) {
     if (e.candidate == null) {
 
@@ -309,3 +309,7 @@ peerConnection2.onicecandidate = function (e) {
         });
     }
 }
+
+addEventListener('beforeunload', event => { 
+    activedc.close();
+});

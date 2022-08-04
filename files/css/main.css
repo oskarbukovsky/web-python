@@ -129,3 +129,7 @@ progress {
     top: 115px;
     left: 120px;
 }
+
+#Game > canvas {
+    width: calc(100vw - 25vw - 110px);
+}
