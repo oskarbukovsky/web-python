@@ -172,6 +172,7 @@ drone.on('open', () => {
             messages = room._history.messages.filter((msg) => { try { filter = JSON.parse(msg.message).uuid } catch (e) { return false } return filter || false });
             updateMessages();
             createOffer();
+            onRoomOpen();
         }
     });
 
@@ -223,7 +224,8 @@ drone.on('open', () => {
 
     });
 });
-
+function onRoomOpen() {
+};
 
 // BOB: pasted Alice's answer
 let onRecievedAnswer = function () {
@@ -310,6 +312,6 @@ peerConnection2.onicecandidate = function (e) {
     }
 }
 
-addEventListener('beforeunload', event => { 
+addEventListener('beforeunload', event => {
     activedc.close();
 });

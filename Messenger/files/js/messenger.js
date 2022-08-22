@@ -1,15 +1,15 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $("#chat-username").text(urlParams.get("user"));
     document.getElementById("chat-conversation").scroll(0, 999999999999);
 
-    $(".chat-icon-info").click(function() {
+    $(".chat-icon-info").click(function () {
         var slider_width = $('.chat-right').width();
         if ($('.chat-right').css("margin-right") == slider_width + "px" && !$('.chat-right').is(':animated')) {
             $('.chat-right').animate({
                 "margin-right": '-=' + slider_width
             }, {
                 duration: 150,
-                step: function(currentLeft) {
+                step: function (currentLeft) {
                     resized();
                 }
             });
@@ -19,14 +19,28 @@ $(document).ready(function() {
                     "margin-right": '+=' + slider_width
                 }, {
                     duration: 150,
-                    step: function(currentLeft) {
+                    step: function (currentLeft) {
                         resized();
                     }
                 });
             }
         }
     });
+    $(".chat-small-icon")[0].style = "background-image: url(https://ui-avatars.com/api/?background=random&name=" + username + ");"
 });
+
+/*function init() {
+    doSomething();
+}
+//anytime later
+var old_init = init;
+init = function () {
+    old_init.apply(this, arguments);
+    doSomethingHereToo();
+};*/
+onRoomOpen = () => {
+    //$(".chat-small-icon")[0].style = "background-image: url(https://ui-avatars.com/api/?background=random&name=" + members.filter(member => { return (member.clientData.uuid == uuid) })[0].clientData.username + ");"
+};
 
 function isEmpty(value) {
     return (value == null || value.length === 0);
@@ -38,7 +52,7 @@ function sleep(ms) {
 
 window.addEventListener("resize", resized);
 
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
         event.preventDefault();
         document.getElementById("chat-send-submit").click();
@@ -82,3 +96,8 @@ async function addmessage() {
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var user = urlParams.get("user")
+
+
+var crypt = new JSEncrypt({default_key_size: 2048, default_public_exponent: "001001"});
+var LocalPrivateKey = crypt.getPrivateKey();
+var LocalPublicKey = crypt.getPublicKey();
